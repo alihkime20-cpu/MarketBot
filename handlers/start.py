@@ -1,4 +1,4 @@
-from aiogram import Router, types
+from aiogram import Router, types, F
 from aiogram.filters import CommandStart
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -26,3 +26,21 @@ async def start_handler(message: types.Message):
         "اختر طريقة الاستخدام:",
         reply_markup=keyboard.as_markup()
     )
+
+
+@router.callback_query(F.data == "buyer")
+async def buyer_handler(callback: types.CallbackQuery):
+    await callback.message.answer(
+        "🛍️ أنت الآن كمشتري\n\n"
+        "يمكنك تصفح المنتجات عند إضافة نظام المنتجات."
+    )
+    await callback.answer()
+
+
+@router.callback_query(F.data == "seller_request")
+async def seller_request_handler(callback: types.CallbackQuery):
+    await callback.message.answer(
+        "🏪 طلب فتح متجر\n\n"
+        "سيتم إرسال طلبك إلى الإدارة للموافقة."
+    )
+    await callback.answer()
